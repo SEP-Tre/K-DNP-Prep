@@ -1,0 +1,95 @@
+﻿@page "/AddChild"
+@using System.Collections
+@using System.Reflection.Metadata
+@using Domain.Domain
+@using Domain.Dto
+@using HttpClients.Interfaces
+@using Microsoft.VisualBasic.CompilerServices
+@inject IChildService childService;
+<h3>Add Child</h3>
+<div class="form-group field">
+    <label>Name:</label>
+    <input type="text" @bind="Name"/>
+</div>
+<div class="form-group field">
+    <label>Gender:</label>
+    <input type="text" @bind="Gender"/>
+</div>
+<div class="form-group field">
+    <label>Age:</label>
+    <select @bind="Age">
+        <option>Choose</option>
+        @foreach (int number in PossibleAge)
+        {
+            <option value="@number">@number</option>
+        }
+    </select>
+</div>
+@if (!string.IsNullOrEmpty(msg))
+    {
+        <label style="color: red">@msg</label>
+    }
+<div class="button-row">
+    <button @onclick="AddAsync" class="acceptbtn">Create</button>
+</div>
+
+@code {
+    private string Name;
+    private string Gender;
+    private int Age;
+    private List<int> PossibleAge;
+    private string msg;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            msg = "";
+            PossibleAge = new List<int>();
+            PossibleAge.Add(3);
+            PossibleAge.Add(4);
+            PossibleAge.Add(5);
+            PossibleAge.Add(6);
+            
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private async void AddAsync()
+    {
+        try
+        {
+            msg = "";
+            if (!(string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Gender) || Age == 0))
+            {
+                ChildCreationDto dto = new ChildCreationDto();
+                dto.Age = Age;
+                dto.Gender = Gender;
+                dto.Name = Name;
+                Child savedChild = await childService.AddAsync(dto);
+                Clear();
+                msg = $"Child has been saved with id: {savedChild.Id}";
+                StateHasChanged();
+            }
+            else
+            {
+                msg = "Fields cannot be empty.";
+            }
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+    private void Clear()
+    {
+        Gender = "";
+        Name = "";
+    }
+
+}
