@@ -34,4 +34,37 @@ public class ChildController: ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet]
+    public async Task<List<int>> GetAllIds()
+    {
+        try
+        {
+            List<int> list = await childDao.GetAllIds();
+            return list;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    [HttpGet]
+    [Route("All")]
+    public async Task<List<Child>> GetAllAsync()
+    {
+        try
+        {
+            List<Child> children = await childDao.GetAll();
+            return children;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+
 }

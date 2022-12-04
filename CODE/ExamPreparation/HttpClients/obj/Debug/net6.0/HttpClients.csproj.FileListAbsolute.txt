@@ -1,6 +1,5 @@
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\bin\Debug\net6.0\HttpClients.deps.json
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\bin\Debug\net6.0\HttpClients.dll
-C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\bin\Debug\net6.0\ref\HttpClients.dll
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\bin\Debug\net6.0\HttpClients.pdb
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\bin\Debug\net6.0\Domain.dll
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\bin\Debug\net6.0\Domain.pdb
@@ -13,3 +12,4 @@ C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\obj\
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\obj\Debug\net6.0\HttpClients.dll
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\obj\Debug\net6.0\ref\HttpClients.dll
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\obj\Debug\net6.0\HttpClients.pdb
+C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\HttpClients\obj\Debug\net6.0\refint\HttpClients.dll

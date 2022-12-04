@@ -1,0 +1,87 @@
+﻿@page "/AddToy"
+@using HttpClients.Interfaces
+@using Domain.Domain
+@inject IToyService toyService;
+@inject IChildService childService;
+<h3>AddToy</h3>
+
+<div class="form-group field">
+    <label>Name:</label>
+    <input type="text" @bind="Name"/>
+</div>
+<div class="form-group field">
+    <label>Color:</label>
+    <input type="text" @bind="Color"/>
+</div>
+<div class="form-group field">
+    <label>Condition:</label>
+    <input type="text" @bind="Condition"/>
+</div>
+<div class="form-group field">
+    <label>Is this a favourite toy?:</label>
+    <input type="checkbox" @bind="IsFavourite"/>
+</div>
+<div class="form-group field">
+    <label>Child id:</label>
+    <select @bind="id">
+        <option>Choose</option>
+        @foreach (int number in childrenIds)
+        {
+            <option value="@number">@number</option>
+        }
+    </select>
+</div>
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+<div class="button-row">
+    <button @onclick="AddAsync" class="acceptbtn">Create</button>
+</div>
+
+@code {
+    private string Name;
+    private string Color;
+    private string Condition;
+    private bool IsFavourite;
+    private int id;
+    private List<int> childrenIds;
+    private string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            childrenIds = await childService.GetAllIds();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private async void AddAsync()
+    {
+        try
+        {
+            msg = "";
+            if (!(string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Color)))
+            {
+                Toy savedToy = await toyService.AssignToy(id, new Toy(0, Name, Color, Condition, IsFavourite));
+                msg = $"Toy has been saved with id: {savedToy.Id}";
+                StateHasChanged();
+            }
+            else
+            {
+                msg = "Fields cannot be empty.";
+            }
+        }
+        catch
+            (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+}

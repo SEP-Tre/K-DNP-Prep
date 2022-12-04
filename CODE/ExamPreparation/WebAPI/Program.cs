@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<KinderGardenContext>();
 builder.Services.AddScoped<IChildDao, ChildDao>();
+builder.Services.AddScoped<IToyDao, ToyDao>();
 
 var app = builder.Build();
 

@@ -26,9 +26,9 @@
     </select>
 </div>
 @if (!string.IsNullOrEmpty(msg))
-    {
-        <label style="color: red">@msg</label>
-    }
+{
+    <label style="color: red">@msg</label>
+}
 <div class="button-row">
     <button @onclick="AddAsync" class="acceptbtn">Create</button>
 </div>
@@ -50,7 +50,6 @@
             PossibleAge.Add(4);
             PossibleAge.Add(5);
             PossibleAge.Add(6);
-            
         }
         catch (Exception e)
         {
@@ -67,13 +66,16 @@
             if (!(string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Gender) || Age == 0))
             {
                 ChildCreationDto dto = new ChildCreationDto();
-                dto.Age = Age;
-                dto.Gender = Gender;
-                dto.Name = Name;
-                Child savedChild = await childService.AddAsync(dto);
-                Clear();
-                msg = $"Child has been saved with id: {savedChild.Id}";
-                StateHasChanged();
+                if (Validate())
+                {
+                    dto.Age = Age;
+                    dto.Gender = Gender;
+                    dto.Name = Name;
+                    Child savedChild = await childService.AddAsync(dto);
+                    Clear();
+                    msg = $"Child has been saved with id: {savedChild.Id}";
+                    StateHasChanged();
+                }
             }
             else
             {
@@ -90,6 +92,23 @@
     {
         Gender = "";
         Name = "";
+    }
+
+    private bool Validate()
+    {
+        if (!(Gender.Contains("boy") || Gender.Contains("girl")))
+        {
+            msg = "Gender can be only girl or boy.";
+            return false;
+        }
+        if (Name.Contains("1") || Name.Contains("2") || Name.Contains("3")
+            || Name.Contains("4") || Name.Contains("5") || Name.Contains("6")
+            || Name.Contains("7") || Name.Contains("8") || Name.Contains("9"))
+        {
+            msg = "Name cannot contain numbers.";
+            return false;
+        }
+        return true;
     }
 
 }

@@ -19,4 +19,28 @@ public class ChildDao : IChildDao
         await context.SaveChangesAsync();
         return savedChild.Entity;
     }
+
+    public async Task<List<int>> GetAllIds()
+    {
+        IAsyncEnumerable<Child> allChildren =  context.Children.AsAsyncEnumerable();
+        List<Int32> allIds = new List<int>();
+        await foreach (var child in allChildren)
+        {
+            allIds.Add(child.Id);
+        }
+
+        return allIds;
+    }
+
+    public async Task<List<Child>> GetAll()
+    {
+        IAsyncEnumerable<Child> allChildren =  context.Children.AsAsyncEnumerable();
+        List<Child> allKids = new List<Child>();
+        await foreach (var child in allChildren)
+        {
+            allKids.Add(child);
+        }
+
+        return allKids;
+    }
 }

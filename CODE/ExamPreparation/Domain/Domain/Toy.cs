@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Domain;
 
@@ -11,6 +12,8 @@ public class Toy
     public string Color{ get; set; }
     public string Condition{ get; set; }
     public bool IsFavourite{ get; set; }
+    
+    public int ChildId { get; set; }
 
     public Toy(int id, string name, string color, string condition, bool isFavourite)
     {

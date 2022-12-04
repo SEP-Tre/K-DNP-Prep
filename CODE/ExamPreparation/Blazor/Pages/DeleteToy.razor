@@ -1,0 +1,72 @@
+﻿@page "/DeleteToy"
+@using HttpClients.Interfaces
+@using Domain.Domain
+@inject IToyService toyService;
+<h3>DeleteToy</h3>
+
+@if (toys == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="d-flex flex-row justify-content-center">
+        <div class="w-100">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Toy name</th>
+                    <th>Color</th>
+                    <th>Is favourite?</th>
+                    <th>Delete</th>
+                </tr>
+
+                @foreach (Toy toy in toys)
+                {
+                    <tr>
+                        <td>@toy.Name</td>
+                        <td>@toy.Color</td>
+                        <td>@toy.IsFavourite</td>
+                        <td>
+                            <button @onclick="() => delete(toy.Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+
+    </div>
+}
+
+@code {
+    private List<Toy> toys;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            toys = await toyService.GetAll();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private async Task delete(int id)
+    {
+        try
+        {
+            await toyService.DeleteAsync(id);
+            toys = await toyService.GetAll();
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}

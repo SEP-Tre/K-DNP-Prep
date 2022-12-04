@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WIGyX2Q9cAlnK4QROcohw2X5Ap2OWZYst5OpFe20YLo=",
+  "Hash": "UdHLzyTgSelS6XVSlQU0SdDJSXbmOD/7/HDZu1l9Grw=",
   "Source": "Blazor",
   "BasePath": "/",
   "Mode": "Root",
@@ -204,23 +204,6 @@
       "OriginalItemSpec": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\HttpClients\\bin\\Debug\\net6.0\\HttpClients.pdb"
     },
     {
-      "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\bin\\Debug\\net6.0\\wwwroot\\_framework\\icudt.dat",
-      "SourceId": "Blazor",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\bin\\Debug\\net6.0\\wwwroot\\",
-      "BasePath": "/",
-      "RelativePath": "_framework/icudt.dat",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "BlazorWebAssemblyResource",
-      "AssetTraitValue": "native",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "C:\\Users\\fisch\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\6.0.8\\runtimes\\browser-wasm\\native\\icudt.dat"
-    },
-    {
       "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\bin\\Debug\\net6.0\\wwwroot\\_framework\\icudt_CJK.dat",
       "SourceId": "Blazor",
       "SourceType": "Computed",
@@ -270,6 +253,23 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\fisch\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\6.0.8\\runtimes\\browser-wasm\\native\\icudt_no_CJK.dat"
+    },
+    {
+      "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\bin\\Debug\\net6.0\\wwwroot\\_framework\\icudt.dat",
+      "SourceId": "Blazor",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\bin\\Debug\\net6.0\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "_framework/icudt.dat",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "BlazorWebAssemblyResource",
+      "AssetTraitValue": "native",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "C:\\Users\\fisch\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\6.0.8\\runtimes\\browser-wasm\\native\\icudt.dat"
     },
     {
       "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\bin\\Debug\\net6.0\\wwwroot\\_framework\\Microsoft.AspNetCore.Authorization.dll",
@@ -7021,6 +7021,23 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
+      "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "SourceId": "Blazor",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/open-iconic/FONT-LICENSE",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
+    },
+    {
       "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
       "SourceId": "Blazor",
       "SourceType": "Discovered",
@@ -7121,23 +7138,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
-    },
-    {
-      "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
-      "SourceId": "Blazor",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\wwwroot\\",
-      "BasePath": "/",
-      "RelativePath": "css/open-iconic/FONT-LICENSE",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
     },
     {
       "Identity": "C:\\Users\\fisch\\Documents\\GitHub\\K-DNP-Prep\\CODE\\ExamPreparation\\Blazor\\wwwroot\\css\\open-iconic\\ICON-LICENSE",

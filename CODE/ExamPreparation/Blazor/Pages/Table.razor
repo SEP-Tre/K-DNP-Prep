@@ -1,0 +1,64 @@
+﻿@page "/Table"
+@using Domain.Domain
+@using HttpClients.Interfaces
+@inject IChildService childService;
+@inject IToyService toyService;
+<h3>Table</h3>
+
+@if (children == null || toys == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="d-flex flex-row justify-content-center">
+        <div class="w-100">
+            @foreach (Child child in children)
+            {
+                <p>@child.Name is @child.Age years old @child.Gender. Their toys include:</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Toy name</th>
+                        <th>Color</th>
+                        <th>Is favourite?</th>
+                    </tr>
+
+                    @foreach (Toy toy in toys)
+                    {
+                        if (child.Id == toy.ChildId)
+                        {
+                            <tr>
+                                <td>@toy.Name</td>
+                                <td>@toy.Color</td>
+                                <td>@toy.IsFavourite</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            }
+        </div>
+
+    </div>
+}
+
+
+@code {
+
+    private List<Child> children;
+    private List<Toy> toys;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            children = await childService.GetAll();
+            toys = await toyService.GetAll();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}

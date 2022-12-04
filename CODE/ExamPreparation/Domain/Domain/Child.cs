@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Domain;
 
@@ -13,6 +14,7 @@ public class Child
     [Required]
     public string Gender { get; set;}
     
+    [JsonIgnore]
     public ICollection<Toy> Toys { get; set; }
 
     public Child(int id, string name, int age, string gender)

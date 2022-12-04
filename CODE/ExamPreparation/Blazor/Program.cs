@@ -12,5 +12,6 @@ builder.Services.AddScoped
     (sp => new HttpClient { BaseAddress = new Uri("https://localhost:7145") });
 
 builder.Services.AddScoped<IChildService, ChildHttpClient>();
+builder.Services.AddScoped<IToyService, ToyHttpClient>();
 
 await builder.Build().RunAsync();
