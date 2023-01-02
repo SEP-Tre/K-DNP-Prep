@@ -1,0 +1,168 @@
+﻿@page "/View"
+@using WASM_.Pages
+@using Model
+@using System.Text.Json
+@inject IClientInjector injector;
+
+<h3>View</h3>
+@if (Authors == null || Books == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="d-flex flex-row justify-content-center">
+        <div class="w-100">
+            <div class="form-group field">
+                <label>First name contains:</label>
+                <input type="text" @bind="NameContains"/>
+            </div>
+            <div class="form-group field">
+                <label>Title contains:</label>
+                <input type="text" @bind="TitleContains"/>
+            </div>
+            <button @onclick="async () => await FilterAsync()">
+                <b>Filter</b>
+            </button>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Title</th>
+                    <th>PubYear</th>
+                    <th>Author first name</th>
+                    <th>Author last name</th>
+                    <th>Remove?</th>
+                </tr>
+                @foreach (Book book in Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.PublicationYear</td>
+                        <td>@Authors.Find(a => a.Id == book.AuthorId).FirstName</td>
+                        <td>@Authors.Find(a => a.Id == book.AuthorId).LastName</td>
+                        <td>
+                            <button @onclick="async () => await DeleteAsync(book.ISBN)">
+                                <b>X</b>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label style="color: red">@msg</label>
+            }
+        </div>
+
+    </div>
+}
+
+@code {
+    private HttpClient client;
+    private List<Book> Books = new List<Book>();
+    private List<Author> Authors = new List<Author>();
+    private string msg;
+    private string NameContains;
+    private string TitleContains;
+
+    protected async override Task OnInitializedAsync()
+    {
+        client = injector.GetClient();
+
+        HttpResponseMessage responseMessage = await client.GetAsync($"/Authors");
+        string response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            msg = response;
+        }
+        Authors = JsonSerializer.Deserialize<List<Author>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+
+
+        responseMessage = await client.GetAsync($"/Books");
+        response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            msg = response;
+        }
+
+        Books = JsonSerializer.Deserialize<List<Book>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+    }
+
+    private async Task DeleteAsync(int isbn)
+    {
+        try
+        {
+            msg = "";
+            HttpResponseMessage responseMessage = await client.DeleteAsync($"/Books?isbn={isbn}");
+            string response = await responseMessage.Content.ReadAsStringAsync();
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception(response);
+            }
+            msg = $"Book with ISBN: {isbn} was removed.";
+            await OnInitializedAsync();
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+    private async Task FilterAsync()
+    {
+        try
+        {
+            await OnInitializedAsync();
+            if (string.IsNullOrEmpty(NameContains) && string.IsNullOrEmpty(TitleContains))
+            {
+                msg = "At least one field has to be filled in order to filter.";
+                return;
+            }
+            if (!string.IsNullOrEmpty(NameContains) && string.IsNullOrEmpty(TitleContains))
+            {
+                List<Book> filteredBooks = new List<Book>();
+                Authors = Authors.FindAll(a => a.FirstName.Contains(NameContains));
+                foreach (var book in Books)
+                {
+                    if (Authors.Find(a => a.Id == book.AuthorId) != null) 
+                    {
+                        filteredBooks.Add(book);
+                    }
+                }
+                Books = filteredBooks;
+            }
+            else if (!string.IsNullOrEmpty(TitleContains) && string.IsNullOrEmpty(NameContains))
+            {
+                Books = Books.FindAll(b => b.Title.Contains(TitleContains));
+            }
+            else if (!string.IsNullOrEmpty(TitleContains) && !string.IsNullOrEmpty(NameContains))
+            {
+                List<Book> filteredBooks = new List<Book>();
+                Books = Books.FindAll(b => b.Title.Contains(TitleContains));
+                Authors = Authors.FindAll(a => a.FirstName.Contains(NameContains));
+                foreach (var book in Books)
+                {
+                    if (Authors.Find(a => a.Id == book.AuthorId) != null) 
+                    {
+                        filteredBooks.Add(book);
+                    }
+                }
+                Books = filteredBooks;
+            }
+            
+            
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+}

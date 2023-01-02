@@ -1,0 +1,133 @@
+﻿@page "/ViewTeams"
+@using WASM_.Pages
+@using Web_API.models
+@using System.Text.Json
+@inject IClientInjector Injector
+
+<h3>ViewTeams</h3>
+@if (Teams == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="d-flex flex-row justify-content-center">
+        <div class="w-100">
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label style="color: red">@msg</label>
+            }
+            <div class="form-group field">
+                <label>Team name contains:</label>
+                <input type="text" @bind="NameContains"/>
+            </div>
+            <div class="form-group field">
+                <label>Ranking below:</label>
+                <input type="number" @bind="RankingBellow"/>
+            </div>
+            <button @onclick="async () => await FilterAsync()">
+                                                    <b>Filter</b>
+                                                </button>
+            @foreach (Team team in Teams)
+            {
+                <p>@team.TeamName, coached by @team.NameOfCoach, ranking: @team.Ranking, Players:</p>
+                @if (team.Players.Count == 0)
+                {
+                    <p>No players to display.</p>
+                }
+                else
+                {
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Name</th>
+                            <th>Shirt number</th>
+                            <th>Salary</th>
+                            <th>Goals this season</th>
+                            <th>Position</th>
+                            <th>Remove?</th>
+                        </tr>
+
+                        @foreach (Player player in team.Players)
+                        {
+                            <tr>
+                                <td>@player.Name</td>
+                                <td>@player.ShirtNumber</td>
+                                <td>@player.Salary</td>
+                                <td>@player.GoalsThisSeason</td>
+                                <td>@player.Position</td>
+                                <td>
+                                    <button @onclick="async () => await DeleteAsync(player.Name)">
+                                        <b>X</b>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            }
+        </div>
+
+    </div>
+}
+
+@code {
+    private HttpClient client;
+    private List<Team> Teams;
+    private string msg;
+    private int RankingBellow;
+    private string NameContains;
+    protected override async Task OnInitializedAsync()
+    {
+        this.client = Injector.GetClient();
+        HttpResponseMessage responseMessage = await client.GetAsync($"/Teams");
+        string response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(response);
+        }
+
+        Teams = JsonSerializer.Deserialize<List<Team>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        
+    }
+
+    private async Task DeleteAsync(string name)
+    {
+        msg = "";
+        HttpResponseMessage responseMessage = await client.DeleteAsync($"/Player/{name}");
+        string response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(response);
+        }
+        msg = $"{name} was removed from the team.";
+        await OnInitializedAsync();
+    }
+
+    private async Task FilterAsync()
+    {
+        try
+        {
+            HttpResponseMessage responseMessage = await client.GetAsync($"/Teams?name={NameContains}&&ranking={RankingBellow}");
+            string response = await responseMessage.Content.ReadAsStringAsync();
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception(response);
+            }
+
+            Teams = JsonSerializer.Deserialize<List<Team>>(response, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+}

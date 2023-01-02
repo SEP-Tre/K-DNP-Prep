@@ -1,0 +1,115 @@
+﻿@page "/AddPlayer"
+@using WASM_.Pages
+@using System.Text.Json
+@using Web_API.models
+@inject IClientInjector Injector
+<h3>AddPlayer</h3>
+<div class="form-group field">
+    <label>Name:</label>
+    <input type="text" @bind="Name"/>
+</div>
+<div class="form-group field">
+    <label>Shirt number:</label>
+    <input type="number" @bind="ShirtNumber"/>
+</div>
+<div class="form-group field">
+    <label>Salary:</label>
+    <input type="number" @bind="Salary"/>
+</div>
+<div class="form-group field">
+    <label>Goals this season:</label>
+    <input type="number" @bind="Goals"/>
+</div>
+<div class="form-group field">
+    <label>Position:</label>
+    <input type="text" @bind="Position"/>
+</div>
+<div class="form-group field">
+    <label>Team name:</label>
+    <select @bind="TeamName">
+        <option>Choose</option>
+        @foreach (string name in teamNames)
+        {
+            <option value="@name">@name</option>
+        }
+    </select>
+</div>
+
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+<div class="button-row">
+    <button @onclick="AddAsync" class="acceptbtn">Create</button>
+</div>
+
+@code {
+    private HttpClient client;
+
+    private string Name;
+    private int ShirtNumber;
+    private decimal Salary;
+    private int Goals;
+    private string Position;
+    private string TeamName;
+
+    private List<string> teamNames = new List<string>();
+    private string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.client = Injector.GetClient();
+        HttpResponseMessage responseMessage = await client.GetAsync($"/Teams");
+        string response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(response);
+        }
+
+        List<Team> teams = JsonSerializer.Deserialize<List<Team>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        foreach (Team team in teams)
+        {
+            teamNames.Add(team.TeamName);
+        }
+    }
+
+    private async void AddAsync()
+    {
+        try
+        {
+            msg = "";
+            Player player = new Player
+            {
+                Name = Name,
+                GoalsThisSeason = Goals,
+                Position = Position,
+                Salary = Salary,
+                ShirtNumber = ShirtNumber,
+                TeamName = TeamName
+            };
+            HttpResponseMessage responseMessage = await client.PostAsJsonAsync($"/Player/{TeamName}", player);
+            string response = await responseMessage.Content.ReadAsStringAsync();
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                msg = response;
+            }
+
+            Player savedPlayer = JsonSerializer.Deserialize<Player>(response, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+            msg = $"Player with name: {savedPlayer.Name} has been created.";
+            StateHasChanged();
+        }
+        catch
+            (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+
+}

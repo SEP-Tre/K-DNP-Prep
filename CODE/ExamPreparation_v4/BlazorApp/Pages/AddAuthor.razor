@@ -1,0 +1,62 @@
+﻿@page "/AddAuthor"
+@using WASM_.Pages
+@using Model
+@using System.Text.Json
+@inject IClientInjector injector;
+
+<h3>AddAuthor</h3>
+<div class="form-group field">
+    <label>First name:</label>
+    <input type="text" @bind="FirstName"/>
+</div>
+<div class="form-group field">
+    <label>Last name:</label>
+    <input type="text" @bind="LastName"/>
+</div>
+
+
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+<div class="button-row">
+    <button @onclick="async () => await AddAsync()" class="acceptbtn">Create</button>
+</div>
+@code {
+    private HttpClient client;
+    private string FirstName;
+    private string LastName;
+    private string msg;
+
+    protected override void OnInitialized()
+    {
+        client = injector.GetClient();
+
+    }
+    
+    public async Task AddAsync()
+    {
+        try
+        {
+            Author author = new Author(FirstName, LastName);
+            HttpResponseMessage responseMessage = await client.PostAsJsonAsync($"/Authors", author);
+            string response = await responseMessage.Content.ReadAsStringAsync();
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                msg = response;
+            }
+
+            Author savedAuthor = JsonSerializer.Deserialize<Author>(response, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+            msg = $"Author was saved: {savedAuthor.FirstName}";
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+}

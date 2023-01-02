@@ -1,0 +1,108 @@
+﻿@page "/AddBook"
+@using WASM_.Pages
+@using Model
+@using System.Text.Json
+@inject IClientInjector injector;
+<h3>AddBook</h3>
+<div class="form-group field">
+    <label>Title:</label>
+    <input type="text" @bind="Title"/>
+</div>
+<div class="form-group field">
+    <label>Publication year:</label>
+    <input type="number" @bind="PublicationYear"/>
+</div>
+<div class="form-group field">
+    <label>ISBN:</label>
+    <input type="number" @bind="ISBN"/>
+</div>
+<div class="form-group field">
+    <label>Num of pages:</label>
+    <input type="number" @bind="NumOfPages"/>
+</div>
+<div class="form-group field">
+    <label>Genre:</label>
+    <input type="text" @bind="Genre"/>
+</div>
+<div class="form-group field">
+    <label>Author id:</label>
+    <select @bind="AuthorId">
+        <option>Choose</option>
+        @foreach (int number in AuthorIds)
+        {
+            <option value="@number">@number</option>
+        }
+    </select>
+</div>
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+<div class="button-row">
+    <button @onclick="async () => await AddAsync()" class="acceptbtn">Create</button>
+</div>
+
+@code {
+    private HttpClient client;
+    private string Title;
+    private int ISBN;
+    private string Genre;
+    private int PublicationYear;
+    private int NumOfPages;
+    private int AuthorId;
+    private List<int> AuthorIds = new List<int>();
+    private string msg;
+
+    protected async override Task OnInitializedAsync()
+    {
+        client = injector.GetClient();
+        HttpResponseMessage responseMessage = await client.GetAsync($"/Authors");
+        string response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            msg = response;
+        }
+
+        List<Author> authors = JsonSerializer.Deserialize<List<Author>>(response, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        foreach (var author in authors)
+        {
+            AuthorIds.Add(author.Id);
+        }
+    }
+
+    private async Task AddAsync()
+    {
+        try
+        {
+            Book book = new Book
+            {
+                ISBN = ISBN,
+                Title = Title,
+                PublicationYear = PublicationYear,
+                NumOfPages = NumOfPages,
+                Genre = Genre
+            };
+            HttpResponseMessage responseMessage = await client.PostAsJsonAsync($"/Books/{AuthorId}", book);
+            string response = await responseMessage.Content.ReadAsStringAsync();
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                msg = response;
+            }
+
+            Book savedBook = JsonSerializer.Deserialize<Book>(response, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+            msg = $"Book was saved: {savedBook.Title}";
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+}

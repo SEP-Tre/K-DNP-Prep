@@ -1,0 +1,82 @@
+﻿@page "/AddMock"
+@using WASM_.Pages
+@using System.Text.Json
+@using Model
+@inject IClientInjector injector;
+<h3>AddMock</h3>
+<div class="form-group field">
+    <label>Value one:</label>
+    <input type="text" @bind="ValueOne"/>
+</div>
+<div class="form-group field">
+    <label>Value two:</label>
+    <input type="text" @bind="ValueTwo"/>
+</div>
+<div class="form-group field">
+    <label>Ranking:</label>
+    <select @bind="Ranking">
+        <option>Choose</option>
+        @foreach (int number in Rankings)
+        {
+            <option value="@number">@number</option>
+        }
+    </select>
+</div>
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+<div class="button-row">
+    <button @onclick="async () => await AddAsync()" class="acceptbtn">Create</button>
+</div>
+
+@code {
+    private HttpClient client;
+
+    private string ValueOne;
+    private string ValueTwo;
+    private int Ranking;
+    private List<int> Rankings = new List<int>();
+    private string msg;
+
+    protected override void OnInitialized()
+    {
+        client = injector.GetClient();
+        Rankings.Add(1);
+        Rankings.Add(2);
+        Rankings.Add(3);
+        Rankings.Add(4);
+        Rankings.Add(5);
+    }
+
+    public async Task AddAsync()
+    {
+        try
+        {
+            MockModel mockModel = new MockModel();
+            mockModel.ValueOne = ValueOne;
+            mockModel.ValueTwo = ValueTwo;
+            mockModel.Rating = Ranking;
+            HttpResponseMessage responseMessage = await client.PostAsJsonAsync($"/Mock", mockModel);
+            string response = await responseMessage.Content.ReadAsStringAsync();
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                msg = response;
+            }
+
+            MockModel savedMockModel = JsonSerializer.Deserialize<MockModel>(response, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            })!;
+            msg = $"Saved mock model: {savedMockModel.ValueOne}";
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+
+}

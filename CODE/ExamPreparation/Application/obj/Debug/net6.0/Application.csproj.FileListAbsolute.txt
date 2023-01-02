@@ -10,6 +10,6 @@ C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\Application.csproj.CoreCompileInputs.cache
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\Application.dll
-C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\ref\Application.dll
-C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\Application.pdb
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\refint\Application.dll
+C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\Application.pdb
+C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Application\obj\Debug\net6.0\ref\Application.dll

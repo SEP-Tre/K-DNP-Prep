@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlite:C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\EfcDataAccess\KinderGarden.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Club.db" uuid="195eb690-8582-4382-9ae9-1346a65723d6">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\Web_API\Club.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

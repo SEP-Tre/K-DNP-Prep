@@ -1,0 +1,40 @@
+﻿@page "/AddTeam"
+@using WASM_.Pages
+@using Web_API.models
+@inject IClientInjector Injector
+<h3>AddTeam</h3>
+<div class="d-flex flex-column">
+    <label>Name:</label>
+    <input type="text" @bind="Name"/> 
+    <label>Coach name:</label>
+    <input type="text" @bind="CoachName"/> 
+    <label>Ranking:</label>
+    <input type="number" @bind="Ranking"/>
+    <button @onclick="SaveAsync">Add</button>
+</div>
+
+@code {
+    private HttpClient client;
+    private string Name;
+    private string CoachName;
+    private int Ranking;
+    protected override void OnInitialized()
+    {
+        this.client = Injector.GetClient();
+    }
+
+    public async Task SaveAsync()
+    {
+        Team team = new Team();
+        team.TeamName = Name;
+        team.NameOfCoach = CoachName;
+        team.Ranking = Ranking;
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("/Teams", team);
+        string response = await responseMessage.Content.ReadAsStringAsync();
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception(response);
+        }
+    }
+
+}

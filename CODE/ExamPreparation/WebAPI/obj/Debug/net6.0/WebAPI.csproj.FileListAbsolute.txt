@@ -53,7 +53,7 @@ C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\scopedcss\bundle\WebAPI.styles.css
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\WebAPI.csproj.CopyComplete
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\WebAPI.dll
-C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\ref\WebAPI.dll
+C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\refint\WebAPI.dll
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\WebAPI.pdb
 C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\WebAPI.genruntimeconfig.cache
-C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\refint\WebAPI.dll
+C:\Users\fisch\Documents\GitHub\K-DNP-Prep\CODE\ExamPreparation\WebAPI\obj\Debug\net6.0\ref\WebAPI.dll
